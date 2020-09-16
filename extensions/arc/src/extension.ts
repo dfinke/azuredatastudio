@@ -58,12 +58,16 @@ export async function activate(context: vscode.ExtensionContext): Promise<arc.IE
 	await checkArcDeploymentExtension();
 
 	return {
-		getRegisteredDataControllers: async () => (await treeDataProvider.getChildren())
-			.filter(node => node instanceof ControllerTreeNode)
-			.map(node => ({
-				label: (node as ControllerTreeNode).model.label,
-				info: (node as ControllerTreeNode).model.info
-			})),
+		getRegisteredDataControllers: async () => {
+			const children = (await treeDataProvider.getChildren())
+				.filter(node => node instanceof ControllerTreeNode)
+				.map(node => ({
+					label: (node as ControllerTreeNode).model.label,
+					info: (node as ControllerTreeNode).model.info
+				}));
+			console.log(`GOT ${children.length} FILTERED CHILDREN`);
+			return children;
+		},
 		getControllerPassword: async (controllerInfo: arc.ControllerInfo) => {
 			return await treeDataProvider.getPassword(controllerInfo);
 		},

@@ -31,6 +31,7 @@ export abstract class OptionsSource implements IOptionsSource {
 	}
 
 	static construct(optionsSourceType: OptionsSourceType, variableNames: { [index: string]: string }): OptionsSource {
+		console.log(`CONSTRUCTING ${optionsSourceType}`);
 		const sourceConstructor = OptionsSources.get(optionsSourceType);
 		throwUnless(sourceConstructor !== undefined, loc.noOptionsSourceDefined(optionsSourceType));
 		const obj = new sourceConstructor();
@@ -47,7 +48,9 @@ export class ArcControllersOptionsSource extends OptionsSource {
 	}
 
 	async getOptions(): Promise<string[] | CategoryValue[]> {
+		console.log(`GET OPTIONS ${apiService.arcApi}`);
 		const controllers = await apiService.arcApi.getRegisteredDataControllers();
+		console.log(`GOT CONTROLLERS ${controllers}`);
 		throwUnless(controllers !== undefined && controllers.length !== 0, loc.noControllersConnected);
 		return controllers.map(ci => {
 			return ci.label;

@@ -31,6 +31,7 @@ export class AzureArcTreeDataProvider implements vscode.TreeDataProvider<TreeNod
 	}
 
 	public async getChildren(element?: TreeNode): Promise<TreeNode[]> {
+		console.log(`GETTING CHILDREN`);
 		if (this._loading) {
 			return [];
 		}
@@ -43,6 +44,7 @@ export class AzureArcTreeDataProvider implements vscode.TreeDataProvider<TreeNod
 		if (element) {
 			return element.getChildren();
 		} else {
+			console.log(`GOT ${this._controllerNodes.length} CHILDREN`);
 			return this._controllerNodes;
 		}
 	}
